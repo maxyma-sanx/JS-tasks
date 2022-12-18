@@ -96,6 +96,15 @@ async function onFormDeleteSubmit(e) {
 
 // Завдання 5
 
+const usersList = document.querySelector("#allUsers");
+
+async function renderUsers() {
+  const users = await usersApi.getUsers();
+
+  usersList.innerHTML = renderService.crateUsersMarkup(users);
+}
+// renderUsers();
+
 // productsApi.searchProductsByCategory('smartphones');
 // productsApi.filterProducts(5, 10, ['title', 'price']);
 // productsApi.getCategories();
@@ -103,7 +112,7 @@ async function onFormDeleteSubmit(e) {
 // productsApi.addProduct();
 // productsApi.updateProduct(10);
 // productsApi.deleteProduct(1);
-productsApi.getProducts();
+// productsApi.getProducts();
 
 // usersApi.getUsers();
 // usersApi.getUserById(10);

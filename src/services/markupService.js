@@ -20,7 +20,22 @@ const createProductByIdMarkup = ({ title, description, price }) => {
     `;
 };
 
+const crateUsersMarkup = (users) => {
+  return users
+    .map(({ firstName, lastName, age }) => {
+      return `
+      <li>
+        <h2>Ім'я: ${firstName}</h2>
+        <p>Прізвище: ${lastName}</p>
+        <span>Вік: ${age}</span>
+      </li>
+        `;
+    })
+    .join("");
+};
+
 export default {
+  crateUsersMarkup,
   createProductsMarkup,
   createProductByIdMarkup,
 };
