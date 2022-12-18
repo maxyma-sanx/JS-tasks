@@ -1,31 +1,75 @@
-import './styles/normalize.css';
-import './styles/index.css';
+import "./styles/normalize.css";
+import "./styles/index.css";
 
-import productsApi from './requests/products';
-import usersApi from './requests/users';
-import postsApi from './requests/posts';
+import productsApi from "./requests/products";
+import usersApi from "./requests/users";
+import postsApi from "./requests/posts";
 
-import renderService from './services/markupService';
+import renderService from "./services/markupService";
+import apiInstance from "./services/api";
 
 // Завдання 1
+const allProducts = document.querySelector("#allProducts");
+
 const renderProducts = async () => {
-}
+  const products = await productsApi.getProducts();
+
+  allProducts.insertAdjacentHTML(
+    "beforeend",
+    renderService.createProductsMarkup(products)
+  );
+};
 
 // renderProducts();
 
-
 // Завдання 2
+const form = document.querySelector("#singleProductForm");
+const product = document.querySelector("#singleProduct");
 
+form.addEventListener("submit", onFormSubmit);
+
+async function onFormSubmit(e) {
+  e.preventDefault();
+
+  const { id } = e.currentTarget.elements;
+  const value = id.value;
+
+  const productData = await productsApi.getProductById(value);
+
+  product.innerHTML = renderService.createProductByIdMarkup(productData);
+}
 
 // Завдання 3
 
+const createForm = document.querySelector("#createProduct");
+
+createForm.addEventListener("submit", onCreateFormSubmit);
+
+async function onCreateFormSubmit(e) {
+  try {
+    e.preventDefault();
+
+    const { title, description, price } = e.currentTarget.elements;
+
+    const data = {
+      title: title.value,
+      description: description.value,
+      price: price.value,
+    };
+
+    const res = await productsApi.createProduct(data);
+
+    if (!res.status === 200) {
+      throw new Error("error");
+    }
+  } catch (error) {
+    console.log(`${error.message}, щось пiшло не так`);
+  }
+}
 
 // Завдання 4
 
-
 // Завдання 5
-
-
 
 // productsApi.searchProductsByCategory('smartphones');
 // productsApi.filterProducts(5, 10, ['title', 'price']);
@@ -34,6 +78,7 @@ const renderProducts = async () => {
 // productsApi.addProduct();
 // productsApi.updateProduct(10);
 // productsApi.deleteProduct(1);
+productsApi.getProducts();
 
 // usersApi.getUsers();
 // usersApi.getUserById(10);
