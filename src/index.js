@@ -7,6 +7,7 @@ import postsApi from "./requests/posts";
 
 import renderService from "./services/markupService";
 import apiInstance from "./services/api";
+import { ok } from "assert";
 
 // Завдання 1
 const allProducts = document.querySelector("#allProducts");
@@ -68,6 +69,29 @@ async function onCreateFormSubmit(e) {
 }
 
 // Завдання 4
+
+const formDelete = document.querySelector("#deletionProductForm");
+
+formDelete.addEventListener("submit", onFormDeleteSubmit);
+
+async function onFormDeleteSubmit(e) {
+  e.preventDefault();
+
+  const { deletionId } = e.currentTarget.elements;
+  const value = deletionId.value;
+
+  const { data } = await productsApi.deleteProduct(value);
+
+  try {
+    if (data.isDeleted) {
+      alert(`Success! ${data.title} was deleted.`);
+    } else {
+      alert(`Error! ${data.title} was deleted.`);
+    }
+  } catch (error) {}
+
+  // product.innerHTML = renderService.createProductByIdMarkup(productData);
+}
 
 // Завдання 5
 

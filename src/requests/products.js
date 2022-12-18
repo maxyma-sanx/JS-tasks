@@ -33,7 +33,11 @@ const addProduct = async () => {};
 
 const updateProduct = async () => {};
 
-const deleteProduct = async () => {};
+const deleteProduct = async (id) => {
+  const result = await apiInstance.delete(`/products/${id}`);
+  console.log(result);
+  return result;
+};
 
 export default {
   getProducts,
