@@ -80,15 +80,16 @@ async function onFormDeleteSubmit(e) {
   const { deletionId } = e.currentTarget.elements;
   const value = deletionId.value;
 
-  const { data } = await productsApi.deleteProduct(value);
-
   try {
+    const { data } = await productsApi.deleteProduct(value);
     if (data.isDeleted) {
       alert(`Success! ${data.title} was deleted.`);
     } else {
-      alert(`Error! ${data.title} was deleted.`);
+      throw new Error("wasn't deleted");
     }
-  } catch (error) {}
+  } catch (error) {
+    alert(`Error! ${error.message} `);
+  }
 
   // product.innerHTML = renderService.createProductByIdMarkup(productData);
 }
